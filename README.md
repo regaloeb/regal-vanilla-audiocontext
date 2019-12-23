@@ -42,15 +42,15 @@ plugin.showPrevisu(): recalcule et redessine la Waveform (utile pour un player u
 plugin est une référence à l'objet RegalSpectrum
 
 Chapitrage possible avec visualisation sur la barre de progression.
-<ul class="chapters-line">
-    <li><a href="#" data-time="0" data-end="198" class="chapter-line icon-arrow-down">Titre chapitre</a></li>
+&lt;ul class="chapters-line">
+    &lt;li><a href="#" data-time="0" data-end="198" class="chapter-line icon-arrow-down">Titre chapitre&lt;/a>&lt;/li>
     ...
-</ul>
+&lt;/ul>
     data-time le timecode du début du chapitre en secondes.
     data-end le timecode de la fin du chapitre en secondes.
 class="chapter-line ..." obligatoire.
 Ensemble chapitres à placer dans la structure :
-<div class="seekbar"><div class="progress">
+&lt;div class="seekbar">&lt;div class="progress">
 Lorsque la vidéo atteint data-time, on applique à chapter-line la classe active.
 Lorsque la vidéo atteint data-end, on applique à chapter-line la classe done.
 
