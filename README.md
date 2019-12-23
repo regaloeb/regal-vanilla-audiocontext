@@ -13,7 +13,7 @@ var spectrumSound = document.querySelectorAll('.regal-sound');
 
 for(var i=0; i<spectrumSound.length; i++){
 
-    new RegalSpectrum(spectrumSound[i], {'stopOthers': 1});
+   new RegalSpectrum(spectrumSound[i], {'stopOthers': 1});
     
 }
 
@@ -75,15 +75,15 @@ Chapitrage possible avec visualisation sur la barre de progression.
 
 &lt;ul class="chapters-line">
 
-    &lt;li>&lt;a href="#" data-time="0" data-end="198" class="chapter-line icon-arrow-down">Titre chapitre&lt;/a>&lt;/li>
+   &lt;li>&lt;a href="#" data-time="0" data-end="198" class="chapter-line icon-arrow-down">Titre chapitre&lt;/a>&lt;/li>
     
     ...
     
 &lt;/ul>
 
-    data-time le timecode du début du chapitre en secondes.
+   data-time le timecode du début du chapitre en secondes.
     
-    data-end le timecode de la fin du chapitre en secondes.
+   data-end le timecode de la fin du chapitre en secondes.
     
 class="chapter-line ..." obligatoire.
 
