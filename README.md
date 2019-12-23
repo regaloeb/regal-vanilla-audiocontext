@@ -77,7 +77,7 @@ Chapitrage possible avec visualisation sur la barre de progression.
 
    &lt;li>&lt;a href="#" data-time="0" data-end="198" class="chapter-line icon-arrow-down">Titre chapitre&lt;/a>&lt;/li>
     
-    ...
+   ...
     
 &lt;/ul>
 
