@@ -1,0 +1,278 @@
+$checkboxSize: 20px;
+$radioSize: 15px;
+$inputHeight: 40px;
+$inputBorderColor: $colorText;
+$radius: 3px;
+$mobile: $mobileLimit;
+
+fieldset{
+	border: 0;
+	legend{
+		margin: 0;
+		padding: 0;
+	}
+}
+
+/* masquer outline chrome et croix/fermer IE sur input */
+input:focus,
+select:focus,
+textarea:focus {
+	outline: none;
+}
+input::-ms-clear {
+	display: none;
+}
+
+/* habillage input text */
+input[type=text],
+input[type=number],
+input[type=tel],
+input[type=email],
+input[type=date],
+input[type=password] {
+	font-size: 15px;
+	font-size: 1.5rem;
+	color: $colorBlack;
+	font-family: 'VAGR-Thin';
+	border: 0;
+	height: $inputHeight;
+	line-height: $inputHeight;
+	width: 100%;
+	vertical-align: middle;
+	display: inline-block;
+	padding: 0;
+	
+	&::-webkit-validation-bubble-message {
+		display:none;
+	} 
+	&:x-moz-errormessage{
+		display:none;
+	}
+}
+/* masquer flèches type number */
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Chrome */
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button { 
+	-webkit-appearance: none;
+	margin:0;
+}
+
+/* Opéra*/
+input::-o-inner-spin-button,
+input::-o-outer-spin-button { 
+	-o-appearance: none;
+	margin:0
+}
+
+
+/* habillage input text */
+textarea {
+	font-size: 15px;
+	font-size: 1.5rem;
+	color: $colorBlack;
+	font-family: 'VAGR-Thin';
+	border: 0;
+	width: 100%;
+	height: auto;
+	min-height: 78px;
+	resize: none;
+	overflow: hidden;
+	background: $colorGreyLight;
+	vertical-align: top;
+	display: inline-block;
+	padding: 30px 40px;
+}
+
+/* habillage checkbox */
+input[type=checkbox] {
+	display: none;
+}
+input[type=checkbox] + label{ 
+	margin-right: 20px;
+	vertical-align: middle;
+	display: inline-block;
+}
+input[type=checkbox] + label:before {  
+	content: "";
+	border-radius: $radius;
+	font-size: 13px; 
+	line-height: $checkboxSize;
+	margin: 0 13px 0 0;
+	height: $checkboxSize;
+	width: $checkboxSize;
+	text-align: center;
+	vertical-align: middle;
+	display: inline-block;
+	background: $colorGreyLight;
+}
+input[type=checkbox] + label:before {  
+	content: "\2713";
+	font-weight: bold;
+	color: transparent;
+	@include transition(color ease .3s);
+}
+input[type=checkbox]:checked + label:before {
+	color: $colorPromouvoir2;	
+	content: url(../img/btn-arrow-valid.png);
+	padding-top: 4px;
+}
+
+/* habillage radio */
+input[type=radio] {
+	display: none;
+}
+input[type=radio] + label{ 
+	vertical-align: middle;
+	display: inline-block;
+	line-height: $radioSize;
+}
+input[type=radio] + label:before {  
+	content: "\26AB";
+	background: $colorGreyLight;
+	border-radius: 100%;
+	width: $radioSize;
+	height: $radioSize;
+	line-height: $radioSize;
+	margin: 0 15px 0 0;
+	vertical-align: middle;
+	display: inline-block;
+	text-align: center;
+	font-size: 0px;    
+	color: transparent;
+	@include transition(background ease .3s, font-size ease .3s);
+}
+input[type=radio]:checked + label {
+	color: $colorBlack;
+}
+input[type=radio]:checked + label:before {  
+	font-size: 9px;
+	color: $colorPromouvoir2;
+}
+
+
+/* select */
+.custom-dropdown {
+	width: 100%;
+}
+
+.custom-dropdown--large {
+    font-size: 15px;
+    font-size: 1.5rem;
+}
+
+.custom-dropdown--small {
+    font-size: 7px;
+    font-size: .7rem;
+}
+
+.custom-dropdown__select{
+    font-size: inherit;
+	padding: 10px 20px;
+	padding: 1rem 2rem 1rem 0;
+    margin: 0;
+	border: 0;
+	width: 100%;
+	color: $colorBlack;
+	
+	option{
+		padding: 0 10px;
+		padding: 0 1rem;
+	}
+}
+
+.custom-dropdown__select--white {
+    background-color: #fff;
+    color: $colorBlack;
+}
+
+.custom-dropdown__select--grey {
+    background-color: #999999;
+    color: #fff;
+}
+
+@supports (pointer-events: none) and
+      ((-webkit-appearance: none) or
+      (-moz-appearance: none) or
+      (appearance: none)) {
+
+    .custom-dropdown {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+		
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			pointer-events: none;
+		}
+		
+		&::after { /*  Custom dropdown arrow */
+			color: #fff;
+			content: url(../img/select-arrow.png);
+			@include transform(translate(0, -50%));
+			height: 1em;
+			font-size: 1em;
+			line-height: 1;
+			right: 0.5em;
+			top: 50%;
+		}
+		
+		&::before { /*  Custom dropdown arrow cover */
+			width: 2em;
+			right: 0; top: 0; bottom: 0;
+			border-radius: 0 $radius $radius 0;
+		}
+    }
+
+    .custom-dropdown__select {
+        padding-right: 2.5em; /* accommodate with the pseudo elements for the dropdown arrow */
+        border: 0;
+        border-radius: $radius;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;    
+    }
+
+    .custom-dropdown__select[disabled] {
+        color: lighten($colorText, 20%);
+    }
+
+    .custom-dropdown.custom-dropdown--disabled::after {
+        color: lighten($colorText, 20%);
+    }
+	
+    .custom-dropdown--white::before {
+        top: .5em; bottom: .5em;
+        background-color: #fff;
+    }
+
+    .custom-dropdown--white::after {
+        color: $colorText;
+    }
+	
+	.custom-dropdown--grey::before {
+        top: .5em; bottom: .5em;
+        background-color: #999999;
+    }
+}
+/* fin select */
+
+@media (max-width: $mobile){
+	input[type=text],
+	input[type=number],
+	input[type=tel],
+	input[type=email],
+	input[type=date],,
+	input[type=password]
+	textarea,
+	label{
+		display: block !important;
+		width: 100% !important;
+	}
+}

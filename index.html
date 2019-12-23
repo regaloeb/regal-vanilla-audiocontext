@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        
+        <title>Audiocontext</title>		
+		<meta name="description" content="Constructeur Javascript Vanilla du player video/audio HTML5 avec visualisation du spectre audio et chapitres.">
+		
+		<meta property="og:title" content="Audiocontext">
+		<meta property="og:description" content="Constructeur Javascript Vanilla du player video/audio HTML5 avec visualisation du spectre audio et chapitres.">
+		<meta property="og:image" content="http://www.regaloeb.com/pages/vanilla-audiocontext/fb-thumb.png">
+		<meta property="og:url" content="http://www.regaloeb.com/pages/vanilla-audiocontext/index.html">
+		<meta property="og:site_name" content="regaloeb.com">
+		<meta property="og:type" content="website">
+		<meta property="fb:admins" content="595624305">
+		<meta property="fb:app_id" content="217293022051519">
+		<link rel="canonical" href="http://www.regaloeb.com/pages/vanilla-audiocontext/index.html">
+		
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/regalSpectrum-plugin.css" type="text/css">
+        <link rel="stylesheet" href="css/regalSpectrum-demo.css" type="text/css">
+		
+        <!--[if lt IE 9]>
+            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+    </head>
+    <body>
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=291769947885817";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		<div class="page-content">
+			<section class="demo">
+				<h1><span class="deco">Le spectre du son</span></h1>
+			</section>
+				
+			<section class="spectrumSound jaune" data-values="{'spectreView':1, 'sinusoidView':1, 'circlesView':1, 'stopOthers': 0, 'color': '251,233,21', 'volumeView':1, 'loop': 1, 'autoPlay': 1}">
+				<h2><span>Lonely LoeB - You Do Me Good</span></h2>
+				<audio controls class="sourceSound">
+					<source src="zik/Lonely LoeB - 09 - You Do Me Good.mp3" type="audio/mpeg">
+					Your browser does not support the audio element, go to hell.
+				</audio>
+				<div class="actions-demo">
+					<a href="#" onclick="spectrumSoundRef[0].changeColor();return false;" class="action-demo">Changer les couleurs du spectre</a><br>
+					<a href="#" onclick="spectrumSoundRef[0].pause();return false;" class="action-demo">Pause</a><br>
+					<a href="#" onclick="spectrumSoundRef[0].play();return false;" class="action-demo">Play</a><br>
+					<a href="#" onclick="spectrumSoundRef[0].seek(60);return false;" class="action-demo">Seek(100)</a><br>
+				</div>
+				<div class="loading"></div>
+				<div class="timeline">
+					<div class="container">
+						<div class="play pause icon-play3"></div>
+						<div class="volume icon-volume-high"></div>
+						<div class="currentTime"></div>
+						<div class="remainingTime"></div>
+						<div class="rewind"></div>
+						<div class="seekbar">
+							<div class="progress">
+								<div class="line">
+									<div class="current"></div>
+								</div>
+								<ul class="chapters-line">
+									<li><a href="#" data-time="0" data-end="5.5" class="chapter-line icon-arrow-down">Intro</a></li>
+									<li><a href="#" data-time="5.5" data-end="7.5" class="chapter-line icon-arrow-down">Yippa yippa ayayay!</a></li>
+									<li><a href="#" data-time="7.5" data-end="15" class="chapter-line icon-arrow-down">Intro (suite)</a></li>
+									<li><a href="#" data-time="15" data-end="29.5" class="chapter-line icon-arrow-down">Couplet</a></li>
+									<li><a href="#" data-time="29.5" data-end="41" class="chapter-line icon-arrow-down">Refrain</a></li>
+									<li><a href="#" data-time="44.5" data-end="59.5" class="chapter-line icon-arrow-down">Couplet</a></li>	
+									<li><a href="#" data-time="59.5" data-end="70.5" class="chapter-line icon-arrow-down">Refrain</a></li>
+									<li><a href="#" data-time="70.5" data-end="85" class="chapter-line icon-arrow-down">Break spatial</a></li>
+									<li><a href="#" data-time="92.7" data-end="107" class="chapter-line icon-arrow-down">Couplet de la fin</a></li>
+									<li><a href="#" data-time="107.5" data-end="118" class="chapter-line icon-arrow-down">Refrain de la fin</a></li>
+									<li><a href="#" data-time="118" data-end="127" class="chapter-line icon-arrow-down">Woho ye-eaaaah!</a></li>
+									<li class="chapters-line-roll"></li>
+								</ul>
+							</div>
+						</div>
+						<canvas class="spectrum spectrumPos"></canvas>
+						<canvas class="spectrum spectrumNeg"></canvas>
+						<canvas class="sineWave"></canvas>
+						<canvas class="circles"></canvas>
+						<canvas class="volume-canvas"></canvas>
+					</div>
+				</div>
+			</section>
+			
+			<section class="spectrumSound" data-values="{'spectreView':1, 'sinusoidView':0, 'circlesView':1}">
+				<h2><span>Lonely LoeB - I Feel Useless</span></h2>
+				<audio controls class="sourceSound">
+					<source src="zik/Lonely LoeB - 01 - I Feel Useless.mp3" type="audio/mpeg">
+					Your browser does not support the audio element, go to hell.
+				</audio>
+				<div class="loading"></div>
+				<div class="timeline">
+					<div class="container">
+						<div class="play pause icon-play3"></div>
+						<div class="volume icon-volume-high"></div>
+						<div class="currentTime"></div>
+						<div class="remainingTime"></div>
+						<div class="rewind"></div>
+						<div class="seekbar">
+							<div class="progress">
+								<div class="line">
+									<div class="current"></div>
+								</div>
+								<ul class="chapters-line">
+									<li><a href="#" data-time="0" data-end="16" class="chapter-line icon-arrow-down">Intro</a></li>
+									<li><a href="#" data-time="16.5" data-end="32" class="chapter-line icon-arrow-down">Premier couplet</a></li>
+									<li><a href="#" data-time="32.5" data-end="52" class="chapter-line icon-arrow-down">Premier Refrain</a></li>
+									<li><a href="#" data-time="52.5" data-end="68" class="chapter-line icon-arrow-down">Deuxième couplet</a></li>	
+									<li><a href="#" data-time="68.5" data-end="88" class="chapter-line icon-arrow-down">Deuxième Refrain</a></li>
+									<li><a href="#" data-time="88" data-end="120" class="chapter-line icon-arrow-down">Break bandalenvers</a></li>
+									<li><a href="#" data-time="120.2" data-end="152" class="chapter-line icon-arrow-down">Dernier couplet (doublé)</a></li>
+									<li><a href="#" data-time="152.3" data-end="189" class="chapter-line icon-arrow-down">Dernier refrain</a></li>
+									<li class="chapters-line-roll"></li>
+								</ul>
+							</div>
+						</div>
+						<canvas class="spectrum spectrumPos"></canvas>
+						<canvas class="spectrum spectrumNeg"></canvas>
+						<canvas class="sineWave"></canvas>
+						<canvas class="circles"></canvas>
+						<canvas class="volume-canvas"></canvas>
+					</div>
+				</div>
+			</section>
+			
+			<section class="spectrumSound video" data-values="{'spectreView':1, 'sinusoidView':0, 'circlesView':0}">
+				<h2><span>Lonely LoeB - Want Me Back</span></h2>
+				<video class="sourceSound video"> 
+					<source src="videos/Lonely LoeB - Want Me Back.mp4" type="video/mp4">
+					<strong>Vous n'avez pas de navigateur moderne, donc pas de balise vidéo de <abbr lang="en" title="HyperText Markup Language" xml:lang="en">HTML</abbr>5 pour vous&nbsp;! </strong>
+				</video>
+				<div class="loading"></div>
+				<div class="timeline">
+					<div class="container">
+						<div class="play pause icon-play3"></div>
+						<div class="volume icon-volume-high"></div>
+						<div class="currentTime"></div>
+						<div class="remainingTime"></div>
+						<div class="rewind"></div>
+						<div class="seekbar">
+							<div class="progress">
+								<div class="line">
+									<div class="current"></div>
+								</div>
+								<ul class="chapters-line">
+									<li><a href="#" data-time="0" data-end="9" class="chapter-line icon-arrow-down">Intro</a></li>
+									<li><a href="#" data-time="9.5" data-end="41" class="chapter-line icon-arrow-down">Premier couplet</a></li>
+									<li><a href="#" data-time="41.5" data-end="49" class="chapter-line icon-arrow-down">Premier refrain</a></li>
+									<li><a href="#" data-time="53.5" data-end="85" class="chapter-line icon-arrow-down">Deuxième couplet</a></li>
+									<li><a href="#" data-time="86" data-end="93" class="chapter-line icon-arrow-down">Deuxième refrain</a></li>
+									<li><a href="#" data-time="97.5" data-end="113" class="chapter-line icon-arrow-down">Solo orgue</a></li>
+									<li><a href="#" data-time="113.5" data-end="129" class="chapter-line icon-arrow-down">Solo guitare</a></li>
+									<li><a href="#" data-time="129.7" data-end="137" class="chapter-line icon-arrow-down">Troisième refrain</a></li>
+									<li><a href="#" data-time="137" data-end="170" class="chapter-line icon-arrow-down">Final</a></li>
+									<li class="chapters-line-roll"></li>
+								</ul> 
+							</div>
+						</div>
+						<canvas class="spectrum spectrumPos"></canvas>
+						<canvas class="spectrum spectrumNeg"></canvas>
+						<canvas class="sineWave"></canvas>
+						<canvas class="circles"></canvas>
+						<canvas class="volume-canvas"></canvas>
+					</div>
+				</div>
+			</section>
+		
+			<section class="demo">
+				<h2>Quelques zesplications</h2>
+				<p>
+					Visualisation du spectre audio de sources audios et/ou vidéos HTML5 dans des canvas.<br><br>
+					Petit constructeur Vanilla pour le fun (et aussi pour pouvoir placer facilement plusieurs objets spectrumSound dans la même page !).<br><br>
+					Simple comme bonjour (à utiliser)&thinsp;: <br>
+					Inclure le constructeur à sa page :<br>
+					<span class="code">&lt;script src="js/vanilla-regalSpectrum.js">&lt;/script></span><br><br>
+					Déclarer les modules en bas de page (ou au domready):<br>
+					<span class="code">
+			var spectrumSound = document.querySelectorAll('.spectrumSound');<br>
+			for(var i=0; i&lt;spectrumSound.length; i++){<br>
+			&nbsp; &nbsp; new RegalSpectrum(spectrumSound[i], {'stopOthers': 1});<br>
+			}<br>
+					</span><br><br>
+					<strong>Propriétés :</strong><br>
+					<span class="code">spectreView</span>: booléen (1 par défaut), pour afficher ou pas les barres de fréquences.<br>
+					<span class="code">sinusoidView</span>: booléen (1 par défaut), pour afficher ou pas la forme de l'onde.<br>
+					<span class="code">circlesView</span>: booléen (1 par défaut), pour afficher ou pas les cercles concentriques qui suivent la barre de progression.<br>
+					<span class="code">stopOthers</span>: booléen (1 par défaut), pour arrêter ou pas le son en cours.<br>
+					<span class="code">color</span>: '251,233,21' (random par défaut): string, couleur RVB des barres de fréquence, des cercles concentriques et du niveau de volume. La couleur complémentaire est appliquée à la forme d'onde.<br>
+					<span class="code">volumeView</span>: booléen (1 par défaut), pour afficher ou pas le niveau de volume.<br>
+					<span class="code">autoPlay</span>: booléen (0 par défaut), pour lancer le son ou la vidéo par défaut (sauf pour Safari et les mobiles qui bloquent les autoplay).<br>
+					<span class="code">loop</span>: booléen (0 par défaut), pour lire le son ou la vidéo en boucle.<br>
+					<span class="code">spectrumFft</span>: number (multiple de 16, 256 par défaut), détermine le nombre de barres affichées.<br>
+					<span class="code">sineWaveFft</span>: number (multiple de 16, 1024 par défaut), détermine le détail appliqué à la forme d'onde.
+					<br><br>
+					Possibilité de déclarer ces propriétés avec attributs data-PROP ou data-values dans le HTML ou au moment de l'initialisation javascript du plugin :<br>
+					<span class="code">data-circleView="1"</span><br>
+					<span class="code">data-values="{'spectreView':0, 'sinusoidView':1, 'circlesView':1, 'stopOthers': 0, 'color': '251,233,21'}"</span><br>
+					data-values prend le dessus sur data-PROP.<br>
+					<span class="code">$(this).regalSpectrum({'spectreView':0, 'sinusoidView':1, 'circlesView':1, 'stopOthers': 0});</span><br>
+					Propriété déclarée en JS prend le dessus sur celle déclarée en data dans le HTML.<br><br>
+					<strong>Méthodes publiques</strong><br>
+					<span class="code">plugin.play</span>: pour lancer la lecture.<br>
+					<span class="code">plugin.pause</span>: pour mettre en pause.<br>
+					<span class="code">plugin.seek(time)</span>: pour placer la tête de lecture à moment précis. <span class="code">time</span> en secondes.<br>
+					<span class="code">plugin.setVolume(vol)</span>: pour changer le volume. <span class="code">vol</span> décimal compris entre 0 et 1.<br>
+					<span class="code">plugin.changeColor(color)</span>: pour changer les couleurs des canvas. <span class="code">color</span> est une string RR,VV,BB.<br>
+					<span class="code">plugin</span> est une référence à l'objet <span class="code">RegalSpectrum</span><br><br>
+					<strong>Chapitrage possible</strong> avec visualisation sur la barre de progression.<br>
+					<span class="code">&lt;ul class="chapters-line"><br>
+					&nbsp; &nbsp; &lt;li>&lt;a href="#" data-time="0" data-end="198" class="chapter-line icon-arrow-down">Titre chapitre&lt;/a>&lt;/li><br>
+					&nbsp; &nbsp; ...<br>
+					&lt;/ul><br></span>
+					&nbsp; &nbsp; <span class="code">data-time</span> le timecode du début du chapitre en secondes.<br>
+					&nbsp; &nbsp; <span class="code">data-end</span> le timecode de la fin du chapitre en secondes.<br>
+					<span class="code">class="chapter-line ..."</span> obligatoire.<br>
+					Ensemble chapitres à placer dans la structure :<br>
+					<span class="code">&lt;div class="seekbar">&lt;div class="progress"></span><br>
+					Lorsque la vidéo atteint <span class="code">data-time</span>, on applique à <span class="code">chapter-line</span> la classe <span class="code">active</span>.<br>
+					Lorsque la vidéo atteint <span class="code">data-end</span>, on applique à <span class="code">chapter-line</span> la classe <span class="code">done</span>.<br><br>
+					<strong>Non-compatible avec IE (même EDGE)</strong>, le plugin devient juste un player son ou vidéo avec  barre de progression... dommage pour eux&thinsp;!<br>
+					<strong>Mais le chapitrage fonctionne</strong>, c'est toujours ça.<br><br>
+					</p>
+					<h2>Code HTML complet pour un module :</h2>
+					<textarea>
+<section class="spectrumSound jaune" data-values="{'spectreView':1, 'sinusoidView':1, 'circlesView':1, 'stopOthers': 0, 'color': '251,233,21', 'volumeView':1}">
+	<h2><span>Lonely LoeB - You Do Me Good</span></h2>
+	<audio controls class="sourceSound">
+		<source src="zik/Lonely LoeB - 09 - You Do Me Good.mp3" type="audio/mpeg">
+		Your browser does not support the audio element, go to hell.
+	</audio>
+	<div class="loading"></div>
+	<div class="timeline">
+		<div class="container">
+			<div class="play pause icon-play3"></div>
+			<div class="volume icon-volume-high"></div>
+			<div class="currentTime"></div>
+			<div class="remainingTime"></div>
+			<div class="rewind"></div>
+			<div class="seekbar">
+				<div class="progress">
+					<div class="line">
+						<div class="current"></div>
+					</div>
+					<ul class="chapters-line">
+						<li><a href="#" data-time="0" data-end="5.5" class="chapter-line icon-arrow-down">Intro</a></li>
+						<li><a href="#" data-time="5.5" data-end="7.5" class="chapter-line icon-arrow-down">Yippa yippa ayayay!</a></li>
+						<li><a href="#" data-time="7.5" data-end="15" class="chapter-line icon-arrow-down">Intro (suite)</a></li>
+						<li><a href="#" data-time="15" data-end="29.5" class="chapter-line icon-arrow-down">Couplet</a></li>
+						<li><a href="#" data-time="29.5" data-end="41" class="chapter-line icon-arrow-down">Refrain</a></li>
+						<li><a href="#" data-time="44.5" data-end="59.5" class="chapter-line icon-arrow-down">Couplet</a></li>	
+						<li><a href="#" data-time="59.5" data-end="70.5" class="chapter-line icon-arrow-down">Refrain</a></li>
+						<li><a href="#" data-time="70.5" data-end="85" class="chapter-line icon-arrow-down">Break spatial</a></li>
+						<li><a href="#" data-time="92.7" data-end="107" class="chapter-line icon-arrow-down">Couplet de la fin</a></li>
+						<li><a href="#" data-time="107.5" data-end="118" class="chapter-line icon-arrow-down">Refrain de la fin</a></li>
+						<li><a href="#" data-time="118" data-end="127" class="chapter-line icon-arrow-down">Woho ye-eaaaah!</a></li>
+						<li class="chapters-line-roll"></li>
+					</ul>
+				</div>
+			</div>
+			<canvas class="spectrum spectrumPos"></canvas>
+			<canvas class="spectrum spectrumNeg"></canvas>
+			<canvas class="sineWave"></canvas>
+			<canvas class="circles"></canvas>
+			<canvas class="volume-canvas"></canvas>
+		</div>
+	</div>
+</section>
+					</textarea>
+					<p>
+					<!--<h2>Github : </h2> <a href="https://github.com/regaloeb/player-HTML5" target="_blank">https://github.com/regaloeb/player-HTML5</a>-->
+					<br><br>
+					<a href="js/vanilla-regalSpectrum.min.js" target="_blank">Constructeur JS, version minifiée (13Ko)</a><br>
+					<a href="js/vanilla-regalSpectrum.js" target="_blank">Constructeur JS, version de travail (25Ko)</a><br>
+				</p>
+				<div class="social">
+					<div class="fb-like" data-href="http://regaloeb.com/pages/vanilla-audiocontext/index.html" data-width="300" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+				</div>
+			</section>
+		</div>
+		<script>
+		//triggerEvent
+		function triggerEvent(el, type){
+		   if ('createEvent' in document) {
+				var e = document.createEvent('HTMLEvents');
+				e.initEvent(type, false, true);
+				el.dispatchEvent(e);
+			}
+			else {
+				var e = document.createEventObject();
+				e.eventType = type;
+				el.fireEvent('on'+e.eventType, e);
+			}
+		}
+
+		//wait until resize is done
+		window.addEventListener('resize', function() {
+			if(this.resizeTO) clearTimeout(this.resizeTO);
+			this.resizeTO = setTimeout(function() {
+				triggerEvent(this, 'resizeEnd');
+			}, 500);
+		});
+
+		//wait until scroll is done
+		window.addEventListener('scroll', function() {
+			if(this.scrollTO) clearTimeout(this.scrollTO);
+			this.scrollTO = setTimeout(function() {
+				triggerEvent(this, 'scrollEnd');
+			}, 500);
+		});
+		</script>
+		
+		<script src="js/vanilla-regalSpectrum.min.js"></script>
+		<script>
+			var spectrumSound = document.querySelectorAll('.spectrumSound');
+			var spectrumSoundRef = [];
+			for(var i=0; i<spectrumSound.length; i++){
+				spectrumSoundRef[i] = new RegalSpectrum(spectrumSound[i], {'stopOthers': 1});
+			}
+		</script>
+    </body>
+
+</html>
